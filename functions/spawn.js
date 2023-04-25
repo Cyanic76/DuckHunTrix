@@ -1,4 +1,8 @@
-const sdk = require("matrix-js-sdk");
+/*
+ * functions/spawn.js
+ *
+ * The Duck Manager.
+*/
 
 // DB
 const { QuickDB } = require('quick.db');

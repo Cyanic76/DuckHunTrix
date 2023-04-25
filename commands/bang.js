@@ -1,8 +1,13 @@
-//const sdk = require("matrix-js-sdk");
+/*
+ * commands/bang.js
+ *
+ * BANG!
+*/
 
 const config = require("../config.json");
 const strings = require("../functions/strings.json");
 const levels = require("../functions/levels.json");
+const LevelUtil = require("../functions/level");
 
 const { QuickDB } = require('quick.db');
 const db = new QuickDB();
@@ -39,7 +44,6 @@ module.exports = {
 
     // If the duck is shot
     if(random_accuracy < accuracy){
-      // 12x + 6x²
 
       // Get the amount of ducks killed by this user
       const duck = await users.get(`${user}_ducks.default`);
@@ -51,6 +55,11 @@ module.exports = {
       });
       await users.add(`${user}_xp`, config.dh.xp.duck);
       await users.add(`${user}_ducks`, {default: 1});
+
+      let lvl = users.get(`${user}_level`);
+      if(lvl === null) lvl = 0;
+      LevelUtil.check(lvl, user, client);
+
       return;
 
     } else {
