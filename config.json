@@ -1,0 +1,15 @@
+{
+  "dh": {
+    "interval_between_spawns": 12,
+    "timeout": 600,
+    "xp": {
+      "duck": 10,
+      "miss": -2,
+      "noduck": -1
+    }
+  },
+  "log": {
+    "show_random_spawn": true
+  },
+  "prefix": "!"
+}
