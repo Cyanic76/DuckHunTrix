@@ -9,7 +9,8 @@ json.sqlite
 # Remove the Node modules
 node_modules/
 
-# Remove the test command
+# Remove the test commands
+bullshit/
 src/commands/test.js
 
 #=============================> AUTO-GENERATED GITIGNORE

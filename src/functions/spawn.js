@@ -25,7 +25,7 @@ function start(client) {
   if(ducks_spawning === true) return console.log("Already started spawning ducks.");
   if(!ducks_spawning) ducks_spawning = true;
   spawn("!tbNFZiSqysFtpzYsta:matrix.org", client);
-  console.log(client.sendEvent);
+  console.log("Started spawning ducks!");
 }
 
 function rnd() {
@@ -41,7 +41,7 @@ function spawn(room, client) {
     if(config.log.show_random_spawn == true) console.log(random);
 
     // If we get lucky, then we spawn a duck
-    if(random === 10){
+    if(random == 0){
       console.log("Spawning a duck...");
       quack(client, room);
     }
@@ -70,9 +70,9 @@ function quack(client, room) {
       "body": `${message} ·°'\`'​°-.,.·°'\``,
       "msgtype": "m.text"
     });
-    console.log("Removing a duck...");
+    console.log(`A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
     table.sub("ducks", 1);
-  }, config.dh.timeout*1000);
+  }, config.dh.duck_timeout*1000);
 }
 
 module.exports = { quack, start }

@@ -1,7 +1,7 @@
 {
   "dh": {
+    "duck_timeout": 600,
     "interval_between_spawns": 12,
-    "timeout": 600,
     "xp": {
       "duck": 10,
       "miss": -2,

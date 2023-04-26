@@ -46,7 +46,11 @@ module.exports = {
     if(random_accuracy < accuracy){
 
       // Get the amount of ducks killed by this user
-      const duck = await users.get(`${user}_ducks.default`);
+      let duck = await users.get(`${user}_ducks.default`);
+      if(duck === null){
+        await users.set(`${user}_ducks_default`, 1);
+        duck = 1;
+      }
       // Get the string and send it
       let message = strings.bang.duck.replace("{{XP}}", config.dh.xp.duck).replace("{{DUCKS}}", duck);
       client.sendEvent(room, "m.room.message", {

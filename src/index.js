@@ -22,22 +22,21 @@ client.once('sync', function(state, prevState, res) {
   // Let's set the start timestamp now so we
   // can ignore previously played events.
   if(state === "PREPARED"){
-    console.log(client.credentials.userId);
     started = Date.now();
     console.log(`Started at ${started} (${new Date(started)})`);
   }
   console.log(`Got ${state}!`);
 });
 
-// That is a handler.
 client.on("Room.timeline", function(event, room, toStartOfTimeline) {
-  // Only look for messages
+  // Only look for *new* messages
   if (event.getType() !== "m.room.message") return;
   // Start spawning the ducks
   DuckSpawner.start(client);
-  // Ignore previous messages
-  if (event.localTimestamp < started || event.origin_server_ts < started) return;
-  // Ignore messages sent by the bot
+  // Wait before the bot has started
+  if(started === 0) return;
+  // Ignore previous messages & messages sent by bot
+  if (event.localTimestamp < started || event.event.origin_server_ts < started) return;
   if (event.event.sender == client.credentials.userId) return;
 
   // Get message, Room #, User #, command
@@ -53,7 +52,11 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
     // Run it with the vars
     cmd.run(client, message, roomId, user);
   } catch(e) {
-    // Error
-    if(e) return console.log(e);
+    if(e){
+      // If it is not a command, DO NOT LOG errors.
+      if(e.code === 'MODULE_NOT_FOUND') return;
+      // Else, log them.
+      return console.log(e);
+    }
   }
 });
