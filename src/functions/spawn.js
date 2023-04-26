@@ -17,8 +17,13 @@ const strings = require("../functions/strings.json");
 let ducks = 0;
 table.set("ducks", 0);
 
+// Has the ducks already started spawning?
+let ducks_spawning = false;
+
 function start(client) {
   // room => ID of the specified room
+  if(ducks_spawning === true) return console.log("Already started spawning ducks.");
+  if(!ducks_spawning) ducks_spawning = true;
   spawn("!tbNFZiSqysFtpzYsta:matrix.org", client);
   console.log(client.sendEvent);
 }

@@ -1,7 +1,7 @@
 #=============================> THIS PROJECT
 
 # Remove the token files
-tokens.json
+src/tokens.json
 
 # Remove the database file
 json.sqlite
@@ -10,7 +10,7 @@ json.sqlite
 node_modules/
 
 # Remove the test command
-commands/test.js
+src/commands/test.js
 
 #=============================> AUTO-GENERATED GITIGNORE
 

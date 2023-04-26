@@ -1,15 +1,14 @@
 {
   "bang": {
     "duck": "You killed the duck! That's now {{DUCKS}} ducks! ({{XP}} exp)",
-    "miss": "You missed the duck! (**MISSED!** {{XP}} exp)",
-    "noduck": "There's no duck in here! What were you aiming at? (**MISSED!** {{XP}} exp)"
+    "miss": "You missed the duck! ({{XP}} exp)",
+    "noduck": "There's no duck in here! What were you aiming at? (MISSED! {{XP}} exp)"
   },
   "duck": {
     "incoming": [
       "The duck flies away.",
       "QUACK!",
       "QUAAAACK!",
-      "**QUACK!**",
       "*cries*"
     ],
     "leaving": [

@@ -1,8 +1,10 @@
 const sdk         = require("matrix-js-sdk");
-const fetch       = require("node-fetch");
+const fetch       = require("cross-fetch");
 const t           = require("./tokens.json");
 const config      = require("./config.json");
 const DuckSpawner = require("./functions/spawn");
+
+global.fetch
 
 let started = 0;
 
@@ -20,12 +22,9 @@ client.once('sync', function(state, prevState, res) {
   // Let's set the start timestamp now so we
   // can ignore previously played events.
   if(state === "PREPARED"){
+    console.log(client.credentials.userId);
     started = Date.now();
-    console.log(client.sendMessage);
-    // Somehow necessary to wait for the client to be ready.
-    // Else, sendEvent is not defined.
-    setTimeout(() => {
-    }, 1000);
+    console.log(`Started at ${started} (${new Date(started)})`);
   }
   console.log(`Got ${state}!`);
 });
@@ -37,7 +36,10 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
   // Start spawning the ducks
   DuckSpawner.start(client);
   // Ignore previous messages
-  if (event.localTimestamp < started) return;
+  if (event.localTimestamp < started || event.origin_server_ts < started) return;
+  // Ignore messages sent by the bot
+  if (event.event.sender == client.credentials.userId) return;
+
   // Get message, Room #, User #, command
   const message = event.event.content.body;
   const roomId = event.sender.roomId;
