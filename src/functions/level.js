@@ -12,8 +12,8 @@ const db = new QuickDB();
 const users = db.table("users");
 
 function check(level, user, client) {
-  // Formula for the current level: 12x + 6x²
-  let requiredXp = 12*(level+1) + (6*(level+1))^2;
+  // Formula for the current level: 10x + 4x²
+  let requiredXp = 10*(level+1) + (4*(level+1))^2;
   const xp = users.get(`${user}_xp`);
 
   // If the user reaches a new level
