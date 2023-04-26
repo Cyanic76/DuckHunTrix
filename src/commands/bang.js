@@ -46,7 +46,7 @@ module.exports = {
     if(random_accuracy < accuracy){
 
       // Get the amount of ducks killed by this user
-      let duck = await users.get(`${user}_ducks.default`);
+      let duck = await users.get(`${user}_ducks_default`);
       if(duck === null){
         await users.set(`${user}_ducks_default`, 1);
         duck = 1;

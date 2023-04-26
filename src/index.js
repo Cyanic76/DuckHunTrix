@@ -42,7 +42,7 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
   // Get message, Room #, User #, command
   const message = event.event.content.body;
   const roomId = event.sender.roomId;
-  const user = event.sender.userId;
+  const user = event.sender.userId.split(":")[0].replace("@", "");
   const cmdname = message.split(" ")[0];
   // Ignore messages without prefix
   if(!cmdname.startsWith(config.prefix)) return;
