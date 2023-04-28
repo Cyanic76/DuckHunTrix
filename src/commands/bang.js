@@ -58,7 +58,7 @@ module.exports = {
         "msgtype": "m.text"
       });
       await users.add(`${user}_xp`, config.dh.xp.duck);
-      await users.add(`${user}_ducks`, {default: 1});
+      await users.add(`${user}_ducks_default`, {default: 1});
 
       let lvl = users.get(`${user}_level`);
       if(lvl === null) lvl = 0;
