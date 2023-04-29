@@ -1,7 +1,5 @@
   ---
 
-branches: main
-
 pipeline:
 # build docs last as they modify the source tree quite heavily
   build-docs:
