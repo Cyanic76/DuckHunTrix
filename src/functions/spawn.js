@@ -28,16 +28,12 @@ function start(client) {
   console.log("Started spawning ducks!");
 }
 
-function rnd() {
-  return Math.floor(Math.random() * (10 - 0 + 1));
-}
-
 function spawn(room, client) {
   let random = -1;
 
   // Generate "random" numbers
   setInterval(() => {
-    random = rnd();
+    random = get_random_number();
     if(config.log.show_random_spawn == true) console.log(random);
 
     // If we get lucky, then we spawn a duck
@@ -59,8 +55,13 @@ function quack(client, room) {
   });
   // Duck spawns
   table.add("ducks", 1);
+  // Remember order
+  let current = table.get("duckOrder");
+  if(current === null){
+    current = ["default"];
+  } else current.push("default");
+  table.set("duckOrder", current);
   ducks++;
-
   // Duck leaves
   setTimeout(() => {
     // Generate random message
@@ -72,7 +73,13 @@ function quack(client, room) {
     });
     console.log(`A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
     table.sub("ducks", 1);
+    // Remove the first duck from array
+    let current = table.get("duckOrder");
+    current.shift();
+    table.set("duckOrder", current);
   }, config.dh.duck_timeout*1000);
 }
+
+function get_random_number() { return Math.floor(Math.random() * (10 - 0 + 1)); }
 
 module.exports = { quack, start }

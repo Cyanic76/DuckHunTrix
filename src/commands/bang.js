@@ -33,7 +33,7 @@ module.exports = {
     }
 
     // There's at least 1 duck
-    table.sub("ducks", 1);
+
     // Get the user level so we know the accuracy/precision
     let level = await users.get(`${user}_level`);
     if(!level || level == null) level = 0;
@@ -51,7 +51,7 @@ module.exports = {
         await users.set(`${user}_ducks_default`, 1);
         duck = 1;
       }
-      // Get the string and send it
+      // Get the message and send it
       let message = strings.bang.duck.replace("{{XP}}", config.dh.xp.duck).replace("{{DUCKS}}", duck);
       client.sendEvent(room, "m.room.message", {
         "body": `${message}`,
@@ -59,6 +59,12 @@ module.exports = {
       });
       await users.add(`${user}_xp`, config.dh.xp.duck);
       await users.add(`${user}_ducks_default`, {default: 1});
+      await table.sub("ducks", 1);
+
+      // Remove the first duck from array so we keep the right order
+      let current = table.get("duckOrder");
+      current.shift();
+      table.set("duckOrder", current);
 
       let lvl = users.get(`${user}_level`);
       if(lvl === null) lvl = 0;
