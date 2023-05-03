@@ -16,6 +16,7 @@ const tokens = require("../tokens.json");
 const strings = require("../functions/strings.json");
 
 // How many ducks in the room?
+let ducks = 0; // It's used in the quack() function.
 table.set("ducks", 0);
 
 // Has the ducks already started spawning?
@@ -46,7 +47,7 @@ function spawn(room, client) {
   }, parseInt(config.dh.interval_between_spawns*1000));
 }
 
-function quack(client, room) {
+async function quack(client, room) {
   // Generate random message
   const message = strings.duck.incoming[Math.floor(Math.random() * strings.duck.incoming.length)];
   // Send the message
@@ -57,14 +58,14 @@ function quack(client, room) {
   // Duck spawns
   table.add("ducks", 1);
   // Remember order
-  let current = table.get("duckOrder");
-  if(current === null){
+  let current = await table.get("duckOrder");
+  if(current == null){
     current = ["default"];
   } else current.push("default");
-  table.set("duckOrder", current);
+  await table.set("duckOrder", current);
   ducks++;
   // Duck leaves
-  setTimeout(() => {
+  setTimeout(async () => {
     // Generate random message
     const message = strings.duck.leaving[Math.floor(Math.random() * strings.duck.leaving.length)];
     // Send the message
@@ -75,9 +76,9 @@ function quack(client, room) {
     console.log(`A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
     table.sub("ducks", 1);
     // Remove the first duck from array
-    let current = table.get("duckOrder");
+    let current = await table.get("duckOrder");
     current.shift();
-    table.set("duckOrder", current);
+    await table.set("duckOrder", current);
   }, config.dh.duck_timeout*1000);
 }
 

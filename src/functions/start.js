@@ -2,6 +2,7 @@
  * functions/start.js
  *
  * Functions that must be run when the bot starts.
+ * Includes bullets.
 */
 
 const { QuickDB } = require('quick.db');
@@ -15,7 +16,8 @@ const config = require("../config.json");
 let has_already_started = false;
 
 function run() {
-  if(has_already_started === false) return console.log("Start functions already ran!");
+  if(has_already_started === true) return console.log("Start functions already ran!");
+  console.log("Running start functions...");
   has_already_started = true;
   // Give all bullets back if we must do so.
   if(config.dh.start.give_all_bullets_back) give_all_bullets_back();

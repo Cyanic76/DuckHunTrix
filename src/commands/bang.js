@@ -84,9 +84,9 @@ module.exports = {
       await table.sub("ducks", 1);
 
       // Remove the first duck from array so we keep the right order
-      let current = table.get("duckOrder");
+      let current = await table.get("duckOrder");
       current.shift();
-      table.set("duckOrder", current);
+      await table.set("duckOrder", current);
 
       let lvl = users.get(`${user}_level`);
       if(lvl === null) lvl = 0;
