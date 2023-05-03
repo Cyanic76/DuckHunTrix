@@ -3,6 +3,7 @@ const fetch       = require("cross-fetch");
 const t           = require("./tokens.json");
 const config      = require("./config.json");
 const DuckSpawner = require("./functions/spawn");
+const Start       = require("./functions/start");
 
 global.fetch
 
@@ -33,6 +34,7 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
   if (event.getType() !== "m.room.message") return;
   // Start spawning the ducks
   DuckSpawner.start(client);
+  Start.run();
   // Wait before the bot has started
   if(started === 0) return;
   // Ignore previous messages & messages sent by bot

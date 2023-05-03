@@ -2,6 +2,7 @@
  * functions/spawn.js
  *
  * The Duck Manager.
+ * Controls duck spawning in the room and remembers in what order they're spawned.
 */
 
 // DB
@@ -11,10 +12,10 @@ const table = db.table("ducks");
 
 // Other files
 const config = require("../config.json");
+const tokens = require("../tokens.json");
 const strings = require("../functions/strings.json");
 
 // How many ducks in the room?
-let ducks = 0;
 table.set("ducks", 0);
 
 // Has the ducks already started spawning?
@@ -24,7 +25,7 @@ function start(client) {
   // room => ID of the specified room
   if(ducks_spawning === true) return console.log("Already started spawning ducks.");
   if(!ducks_spawning) ducks_spawning = true;
-  spawn("!tbNFZiSqysFtpzYsta:matrix.org", client);
+  spawn(tokens.room, client);
   console.log("Started spawning ducks!");
 }
 

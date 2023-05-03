@@ -1,5 +1,6 @@
 {
   "dh": {
+    "default_bullets": 12,
     "duck_timeout": 600,
     "interval_between_spawns": 12,
     "xp": {

@@ -12,12 +12,34 @@ const LevelUtil = require("../functions/level");
 const { QuickDB } = require('quick.db');
 const db = new QuickDB();
 const table = db.table("ducks");
+const bullets = db.table("Bullets");
 const users = db.table("users");
 
 module.exports = {
   name: "bang",
   async run(client, message, room, user) {
+
+    // Get the amount of ducks present in the room.
     const ducks = await table.get("ducks");
+
+    // Get the amount of available bullets.
+    const user_bullets = await bullets.get(`bullets_${user}`);
+    if(user_bullets === 0){
+      client.sendEvent(room, "m.room.message", {
+        "body": `${strings.bang.nobullet}`,
+        "msgtype": "m.text"
+      });
+      return false;
+    }
+    
+    // Remove 1 bullet.
+    if(user_bullets === null){
+      // If user hasn't used this yet, automatically remove 1 bullet as well.
+      await bullets.set(`bullets_${user}`, config.dh.default_bullets-1);
+    } else {
+      // If user has used this at least once.
+      await bullets.sub(`bullets_${user}`, 1);
+    }
 
     // There's no duck in here.
     if(ducks <= 0){
