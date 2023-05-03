@@ -4,7 +4,7 @@
  * Functions that must be run when the bot starts.
 */
 
-const QuickDB = require("quick.db");
+const { QuickDB } = require('quick.db');
 const db = new QuickDB();
 const table = db.table("Bullets");
 const config = require("../config.json");
