@@ -3,6 +3,9 @@
     "default_bullets": 12,
     "duck_timeout": 600,
     "interval_between_spawns": 12,
+    "start": {
+      "give_all_bullets_back": true
+    },
     "xp": {
       "duck": 10,
       "miss": -2,

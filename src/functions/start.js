@@ -7,6 +7,9 @@
 const { QuickDB } = require('quick.db');
 const db = new QuickDB();
 const table = db.table("Bullets");
+
+const schedule = require('node-schedule');
+
 const config = require("../config.json");
 
 let has_already_started = false;
@@ -14,10 +17,15 @@ let has_already_started = false;
 function run() {
   if(has_already_started === false) return console.log("Start functions already ran!");
   has_already_started = true;
-  give_all_bullets_back();
+  // Give all bullets back if we must do so.
+  if(config.dh.start.give_all_bullets_back) give_all_bullets_back();
+  // We're giving everyone back their bullets every day at 12 AM.
+  schedule.scheduleJob("0 0 * * *", function(fireDate){
+    console.log(`Started giving bullets back (${fireDate}).`);
+    give_all_bullets_back()
+  });
 }
 
-// We're giving everyone back their bullets every day at 12 AM.
 async function give_all_bullets_back() {
   const d = new Date();
   // Make sure it was yesterday
