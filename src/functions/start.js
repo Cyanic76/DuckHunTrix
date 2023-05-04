@@ -30,12 +30,11 @@ function run() {
 
 async function give_all_bullets_back() {
   const d = new Date();
-  // Make sure it was yesterday
+  // Make sure it was yesterday (or any other day)
   const previous = await table.get("last_given_back");
-  // Get today's date as ISO 8601 format because all other
-  // formats are pure nonsense.
+  // Get today's date as ISO 8601 format
   console.log(`Last time giving bullets back was done was on ${previous}.`);
-  let month = d.getMonth();
+  let month = d.getMonth()+1;
   if(month<10) month = '0' + month;
   let day = d.getDate();
   if(day<10) day = '0' + day;
@@ -43,13 +42,15 @@ async function give_all_bullets_back() {
   console.log(`Today is ${today}.`);
   // If today's date is different from the stored one,
   // it's a different day. It may also be null, though.
-  if(previous != today){
-    console.log("Giving bullets back...");
-    table.all(value => {
-      if(value.ID.startsWith("bullets_")){
-        table.set(value.ID, config.dh.default_bullets);
+  if(previous == today){
+    const all = await table.all();
+    all.map(async k => {
+      if(k.id.startsWith("bullets_")){
+        // Everyone starts at 12.
+        await table.delete(k.id);
       }
     })
+    console.log("Gave bullets back!");
   }
   // Then we store the new ISO 8601 date
   await table.set("last_given_back", today);
