@@ -69,7 +69,7 @@ module.exports = {
 
       // Get the amount of ducks killed by this user
       let duck = await users.get(`${user}_ducks_default`);
-      if(duck === null){
+      if(duck == null){
         await users.set(`${user}_ducks_default`, 1);
         duck = 1;
       }
@@ -80,7 +80,7 @@ module.exports = {
         "msgtype": "m.text"
       });
       await users.add(`${user}_xp`, config.dh.xp.duck);
-      await users.add(`${user}_ducks_default`, {default: 1});
+      await users.add(`${user}_ducks_default`, 1);
       await table.sub("ducks", 1);
 
       // Remove the first duck from array so we keep the right order

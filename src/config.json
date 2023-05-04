@@ -8,8 +8,8 @@
     },
     "xp": {
       "duck": 10,
-      "miss": -2,
-      "noduck": -1
+      "miss": 2,
+      "noduck": 1
     }
   },
   "log": {
