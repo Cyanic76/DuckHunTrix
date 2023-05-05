@@ -16,15 +16,19 @@ const tokens = require("../tokens.json");
 const strings = require("../functions/strings.json");
 
 // How many ducks in the room?
-let ducks = 0; // It's used in the quack() function.
-table.set("ducks", 0);
+table.all(async k => {
+  if(k.id.startsWith("ducks_")) await table.set(k.id, 0);
+  if(k.id.startsWith("duckOrder_")) await table.set(k.id, []);
+})
 
 // Has the ducks already started spawning?
 let ducks_spawning = false;
+let ducks = 0; // TODO: Remove this
 
 function start(client) {
-  // room => ID of the specified room
-  if(ducks_spawning === true) return console.log("Already started spawning ducks.");
+  // If ducks have already started spawning, ignore other calls.
+  if(ducks_spawning === true) return;
+
   if(!ducks_spawning) ducks_spawning = true;
   spawn(tokens.room, client);
   console.log("Started spawning ducks!");
@@ -55,14 +59,16 @@ async function quack(client, room) {
     "body": `🦆 ${message}`,
     "msgtype": "m.text"
   });
-  // Duck spawns
-  table.add("ducks", 1);
+  // Duck spawns / need to get correct room format
+  const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
+  table.add(`ducks_${database_room}`, 1);
   // Remember order
-  let current = await table.get("duckOrder");
+  console.log(`Room ID is ${database_room}`);
+  let current = await table.get(`duckOrder_${database_room}`);
   if(current == null){
     current = ["default"];
   } else current.push("default");
-  await table.set("duckOrder", current);
+  await table.set(`duckOrder_${database_room}`, current);
   ducks++;
   // Duck leaves
   setTimeout(async () => {
@@ -74,11 +80,12 @@ async function quack(client, room) {
       "msgtype": "m.text"
     });
     console.log(`A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
-    table.sub("ducks", 1);
+    table.sub(`ducks_${database_room}`, 1);
     // Remove the first duck from array
-    let current = await table.get("duckOrder");
+    let current = await table.get(`duckOrder_${database_room}`);
     current.shift();
-    await table.set("duckOrder", current);
+    await table.set(`duckOrder_${database_room}`, current);
+    ducks--;
   }, config.dh.duck_timeout*1000);
 }
 

@@ -4,7 +4,7 @@
 src/tokens.json
 
 # Remove the database file
-json.sqlite
+json.sqlite*
 
 # Remove the Node modules
 node_modules/

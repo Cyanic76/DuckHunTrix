@@ -43,8 +43,10 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
 
   // Get message, Room #, User #, command
   const message = event.event.content.body;
-  const roomId = event.sender.roomId;
-  const user = event.sender.userId.split(":")[0].replace("@", "");
+  const roomId = event.sender.roomId;//
+  // User ID must follow the "[userid]_[host]" template as well.
+  const displayname = event.sender.userId
+  const user = displayname.replace("@", "").replace(":", "_");
   const cmdname = message.split(" ")[0];
   // Ignore messages without prefix
   if(!cmdname.startsWith(config.prefix)) return;
@@ -52,7 +54,7 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
     // Try to load the command file
     const cmd = require(`./commands/${cmdname.replace(config.prefix, "")}`);
     // Run it with the vars
-    cmd.run(client, message, roomId, user);
+    cmd.run(client, message, roomId, user, displayname);
   } catch(e) {
     if(e){
       // If it is not a command, DO NOT LOG errors.

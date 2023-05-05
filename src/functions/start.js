@@ -16,7 +16,7 @@ const config = require("../config.json");
 let has_already_started = false;
 
 function run() {
-  if(has_already_started === true) return console.log("Start functions already ran!");
+  if(has_already_started === true) return;
   console.log("Running start functions...");
   has_already_started = true;
   // Give all bullets back if we must do so.

@@ -14,8 +14,10 @@ module.exports = {
   name: "time",
   async run(client, message, room, user) {
 
+    const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
+
     // Get the bullet number so the user can view it
-    let user_bullets = await bullets.get(`bullets_${user}`);
+    let user_bullets = await bullets.get(`bullets_${database_room}_${user}`);
     // If null, they may not have played today so set it to default.
     if(user_bullets == null) user_bullets = config.dh.default_bullets;
 

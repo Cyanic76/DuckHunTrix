@@ -11,7 +11,7 @@ const { QuickDB } = require('quick.db');
 const db = new QuickDB();
 const users = db.table("users");
 
-function check(level, user, client) {
+function check(level, user, client, room) {
   // Formula for the current level: 10x + 4x²
   let requiredXp = 10*(level+1) + (4*(level+1))^2;
   const xp = users.get(`${user}_xp`);
