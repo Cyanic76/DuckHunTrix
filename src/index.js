@@ -43,7 +43,7 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
 
   // Get message, Room #, User #, command
   const message = event.event.content.body;
-  const roomId = event.sender.roomId;//
+  const roomId = event.sender.roomId;
   // User ID must follow the "[userid]_[host]" template as well.
   const displayname = event.sender.userId
   const user = displayname.replace("@", "").replace(":", "_");

@@ -10,10 +10,7 @@ module.exports = {
   name: "me",
   async run(client, message, room, user, displayname) {
 
-    console.log(`${user} | Display name: ${displayname}`);
-
     const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
-    console.log(`Room ID: ${database_room}`);
     
     // Get amount of regular ducks killed
     let ducks = await users.get(`${user}_${database_room}_ducks_default`);

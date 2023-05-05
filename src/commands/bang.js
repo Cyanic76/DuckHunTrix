@@ -21,7 +21,6 @@ module.exports = {
 
     // Get the amount of ducks present in the room.
     const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
-    console.log(`Room ID is ${database_room}`);
     const ducks = await table.get(`ducks_${database_room}`);
 
     // Get the amount of available bullets.
