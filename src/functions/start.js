@@ -46,8 +46,8 @@ async function give_all_bullets_back() {
     const all = await table.all();
     all.map(async k => {
       if(k.id.startsWith("bullets_")){
-        // Everyone starts at 12.
-        await table.delete(k.id);
+        // Everyone starts at the provided value.
+        await table.set(k.id, config.dh.default_bullets);
       }
     })
     console.log("Gave bullets back!");
