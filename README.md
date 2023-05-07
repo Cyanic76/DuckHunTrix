@@ -22,7 +22,7 @@ Maintained by [Cyanic76](https://cyanic.me), written in JS (NodeJS).
 
 The main command is `!bang`. Use it to shoot at ducks, when one or more of them are in the Matrix room. [Learn more](https://cyanic76.gitbook.io/duckhuntrix/features/getting-started) about this in the documentation.
 
-Get your statistics using one command; `!me`. [Learn more here](cyanic76.gitbook.io/duckhuntrix/features/commands#me).
+Get your statistics using one command; `!me`. [Learn more here](https://cyanic76.gitbook.io/duckhuntrix/features/commands#me).
 
 Don't want to use the official bot? [Host it by yourself](https://cyanic76.gitbook.io/duckhuntrix/admin/selfhost).
 

@@ -24,9 +24,9 @@ client.once('sync', function(state, prevState, res) {
   // can ignore previously played events.
   if(state === "PREPARED"){
     started = Date.now();
-    console.log(`Started at ${started} (${new Date(started)})`);
+    console.log(`[MAIN] Started at ${started} (${new Date(started)})`);
   }
-  console.log(`Got ${state}!`);
+  console.log(`[MAIN] Got ${state}!`);
 });
 
 client.on("Room.timeline", function(event, room, toStartOfTimeline) {
@@ -40,7 +40,6 @@ client.on("Room.timeline", function(event, room, toStartOfTimeline) {
   // Ignore previous messages & messages sent by bot
   if (event.localTimestamp < started || event.event.origin_server_ts < started) return;
   if (event.event.sender == client.credentials.userId) return;
-
   // Get message, Room #, User #, command
   const message = event.event.content.body;
   const roomId = event.sender.roomId;

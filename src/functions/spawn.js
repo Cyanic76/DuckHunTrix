@@ -28,10 +28,19 @@ let ducks = 0; // TODO: Remove this
 function start(client) {
   // If ducks have already started spawning, ignore other calls.
   if(ducks_spawning === true) return;
-
   if(!ducks_spawning) ducks_spawning = true;
-  spawn(tokens.room, client);
-  console.log("Started spawning ducks!");
+  //spawn(tokens.room, client);
+  //console.log("Started spawning ducks!");
+
+  const rooms = client.getRooms();
+  console.log(`[SPAWN] I'm in ${rooms.length} rooms.`);
+  rooms.forEach(r => {
+    // Ignore blacklisted rules (see tokens.json)
+    if(tokens.blacklisted_rooms.includes(r.roomId)) return;
+    // If room isn't blacklisted, start duck spawning
+    spawn(r.roomId, client);
+    console.log(`[SPAWN] Started spawning ducks in ${r.roomId}`);
+  })
 }
 
 function spawn(room, client) {
@@ -40,11 +49,11 @@ function spawn(room, client) {
   // Generate "random" numbers
   setInterval(() => {
     random = get_random_number();
-    if(config.log.show_random_spawn == true) console.log(random);
+    if(config.log.show_random_spawn == true) console.log(`[SPAWN] Got ${random} in room ${room}`);
 
     // If we get lucky, then we spawn a duck
     if(random == 0){
-      console.log("Spawning a duck...");
+      console.log("[SPAWN] Spawning a duck...");
       quack(client, room);
     }
 
@@ -58,12 +67,13 @@ async function quack(client, room) {
   client.sendEvent(room, "m.room.message", {
     "body": `🦆 ${message}`,
     "msgtype": "m.text"
+  }).catch(e => {
+    if(e) console.log(`[SPAWN] ${e.errcode} happened in room ${room}.`);
   });
   // Duck spawns / need to get correct room format
   const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
   table.add(`ducks_${database_room}`, 1);
   // Remember order
-  console.log(`Room ID is ${database_room}`);
   let current = await table.get(`duckOrder_${database_room}`);
   if(current == null){
     current = ["default"];
@@ -79,7 +89,7 @@ async function quack(client, room) {
       "body": `${message} ·°'\`'​°-.,.·°'\``,
       "msgtype": "m.text"
     });
-    console.log(`A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
+    console.log(`[SPAWN] A duck has been waiting for over ${config.dh.duck_timeout} min. Removing...`);
     table.sub(`ducks_${database_room}`, 1);
     // Remove the first duck from array
     let current = await table.get(`duckOrder_${database_room}`);
