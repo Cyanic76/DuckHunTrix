@@ -22,6 +22,7 @@ module.exports = {
     // Get the amount of ducks present in the room.
     const database_room = room.replace("!", "").replace(":", "_").replace(".", "_");
     const ducks = await table.get(`ducks_${database_room}`);
+    const ducks_order = await table.get(`duckOrder_${database_room}`);
 
     // Get the amount of available bullets.
     const user_bullets = await bullets.get(`bullets_${database_room}_${user}`);
@@ -68,10 +69,12 @@ module.exports = {
     // If the duck is shot
     if(random_accuracy < accuracy){
 
+      const first_duck = ducks_order[0];
+
       // Get the amount of ducks killed by this user
-      let duck = await users.get(`${user}_${database_room}_ducks_default`);
+      let duck = await users.get(`${user}_${database_room}_ducks_${first_duck.type}`);
       if(duck == null){
-        await users.set(`${user}_${database_room}_ducks_default`, 1);
+        await users.set(`${user}_${database_room}_ducks_${first_duck.type}`, 1);
         duck = 1;
       }
       // Get the message and send it
@@ -81,7 +84,7 @@ module.exports = {
         "msgtype": "m.text"
       });
       await users.add(`${user}_${database_room}_xp`, config.dh.xp.duck);
-      await users.add(`${user}_${database_room}_ducks_default`, 1);
+      await users.add(`${user}_${database_room}_ducks_${first_duck.type}`, 1);
       await table.sub(`ducks_${database_room}`, 1);
 
       // Remove the first duck from array so we keep the right order

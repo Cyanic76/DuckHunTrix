@@ -78,9 +78,10 @@ async function quack(client, room) {
   table.add(`ducks_${database_room}`, 1);
   // Remember order
   let current = await table.get(`duckOrder_${database_room}`);
+  const duck_data = {type: "default", time: Date.now()};
   if(current == null){
-    current = ["default"];
-  } else current.push("default");
+    current = [{type: "default", time: Date.now()}];
+  } else current.push(duck_data);
   await table.set(`duckOrder_${database_room}`, current);
   ducks++;
   // Duck leaves
