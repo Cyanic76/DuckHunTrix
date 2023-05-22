@@ -25,15 +25,16 @@ client.once('sync', function(state, prevState, res) {
   if(state === "PREPARED"){
     started = Date.now();
     console.log(`[MAIN] Started at ${started} (${new Date(started)})`);
+    // Get all rooms & start spawning the ducks
+    const rooms = client.getRooms();
+    DuckSpawner.start(client, rooms);
   }
   console.log(`[MAIN] Got ${state}!`);
 });
 
-client.on("Room.timeline", function(event, room, toStartOfTimeline) {
+client.on("Room.timeline", function(event, room) {
   // Only look for *new* messages
   if (event.getType() !== "m.room.message") return;
-  // Start spawning the ducks
-  DuckSpawner.start(client);
   Start.run();
   // Wait before the bot has started
   if(started === 0) return;

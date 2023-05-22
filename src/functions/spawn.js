@@ -25,16 +25,14 @@ table.all(async k => {
 let ducks_spawning = false;
 let ducks = 0; // TODO: Remove this
 
-function start(client) {
+async function start(client, all_rooms) {
   // If ducks have already started spawning, ignore other calls.
   if(ducks_spawning === true) return;
   if(!ducks_spawning) ducks_spawning = true;
   //spawn(tokens.room, client);
   //console.log("Started spawning ducks!");
-
-  const rooms = client.getRooms();
-  console.log(`[SPAWN] I'm in ${rooms.length} rooms.`);
-  rooms.forEach(r => {
+  console.log(`[SPAWN] I'm in ${all_rooms.length} rooms.`);
+  all_rooms.forEach(r => {
     // Ignore blacklisted rules (see tokens.json)
     if(tokens.blacklisted_rooms.includes(r.roomId)) return;
     // If room isn't blacklisted, start duck spawning
@@ -61,6 +59,11 @@ function spawn(room, client) {
 }
 
 async function quack(client, room) {
+  // Are there already enough ducks?
+  if(ducks >= config.dh.max_ducks_in_room){
+    console.log("[SPAWN] We already have enough ducks (" + config.dh.max_ducks_in_room + ") in this room.");
+    return;
+  }
   // Generate random message
   const message = strings.duck.incoming[Math.floor(Math.random() * strings.duck.incoming.length)];
   // Send the message

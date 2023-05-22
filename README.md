@@ -4,6 +4,9 @@
 
 This is the source code of the DuckHunTrix Matrix bot.
 
+[![Add the bot](https://img.shields.io/badge/-Add%20the%20bot-ffff33?style=for-the-badge)](https://cyanic76.gitbook.io/duckhuntrix/#add-the-bot)
+[![Join the room](https://img.shields.io/badge/-Join%20the%20official%20room-134646?style=for-the-badge)](https://cyanic76.gitbook.io/duckhuntrix/#add-the-bot)
+
 Maintained by [Cyanic76](https://cyanic.me), written in JS (NodeJS).
 
 ![NodeJS Promo](https://img.shields.io/badge/-20-339933?style=flat&logo=javascript&logoColor=white&label=NodeJS%20version)

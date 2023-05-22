@@ -3,6 +3,7 @@
     "default_bullets": 12,
     "duck_timeout": 600,
     "interval_between_spawns": 12,
+    "max_ducks_in_room": 4,
     "start": {
       "give_all_bullets_back": true
     },
