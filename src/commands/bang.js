@@ -70,9 +70,13 @@ module.exports = {
     if(random_accuracy < accuracy){
 
       const first_duck = ducks_order[0];
+
+      // Get the kill time and store it if it's a Personal Best
       const kill_time = Date.now() - first_duck.time;
       const kill_time_js = new Date(kill_time);
       const kill_time_formatted = `${kill_time_js.getMinutes()}:${kill_time_js.getSeconds()}`;
+      const user_kill_time_pb = await users.get(`${user}_${database_room}_killtime`);
+      if(user_kill_time_pb > kill_time) await users.set(`${user}_${database_room}_killtime`, kill_time);
 
       // Get the amount of ducks killed by this user
       let duck = await users.get(`${user}_${database_room}_ducks_${first_duck.type}`);
@@ -80,6 +84,7 @@ module.exports = {
         await users.set(`${user}_${database_room}_ducks_${first_duck.type}`, 1);
         duck = 1;
       }
+
       // Get the message and send it
       let message = strings.bang.duck
         .replace("{{TIME}}", kill_time_formatted)
