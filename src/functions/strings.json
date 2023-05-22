@@ -1,6 +1,6 @@
 {
   "bang": {
-    "duck": "You killed the duck! That's now {{DUCKS}} ducks! ({{XP}} exp)",
+    "duck": "You killed the duck in {{TIME}}! That's now {{DUCKS}} ducks! ({{XP}} exp)",
     "miss": "You missed the duck! ({{XP}} exp)",
     "nobullet": "You don't have any bullets.",
     "noduck": "There's no duck in here! What were you aiming at? (MISSED! {{XP}} exp)"

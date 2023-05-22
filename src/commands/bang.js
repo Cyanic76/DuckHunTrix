@@ -70,6 +70,9 @@ module.exports = {
     if(random_accuracy < accuracy){
 
       const first_duck = ducks_order[0];
+      const kill_time = Date.now() - first_duck.time;
+      const kill_time_js = new Date(kill_time);
+      const kill_time_formatted = `${kill_time_js.getMinutes()}:${kill_time_js.getSeconds()}`;
 
       // Get the amount of ducks killed by this user
       let duck = await users.get(`${user}_${database_room}_ducks_${first_duck.type}`);
@@ -78,7 +81,10 @@ module.exports = {
         duck = 1;
       }
       // Get the message and send it
-      let message = strings.bang.duck.replace("{{XP}}", config.dh.xp.duck).replace("{{DUCKS}}", duck);
+      let message = strings.bang.duck
+        .replace("{{TIME}}", kill_time_formatted)
+        .replace("{{XP}}", config.dh.xp.duck)
+        .replace("{{DUCKS}}", duck);
       client.sendEvent(room, "m.room.message", {
         "body": `${message}`,
         "msgtype": "m.text"
