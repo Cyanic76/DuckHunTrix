@@ -33,3 +33,5 @@ Don't want to use the official bot? [Host it by yourself](https://cyanic76.gitbo
 
 Contributions are welcome!
 [Guidelines](https://cyanic76.gitbook.io/duckhuntrix/contributing)
+
+Licensed under the CC BY-SA 4.0 license.
